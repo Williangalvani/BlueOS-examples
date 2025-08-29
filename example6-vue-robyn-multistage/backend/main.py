@@ -1,4 +1,4 @@
-from robyn import Robyn
+from robyn import Robyn, Request
 from robyn.responses import serve_file, serve_html
 
 app = Robyn(__name__)
@@ -9,16 +9,18 @@ async def root():
 
 @app.get("/")
 async def root():
-    return serve_html("dist/index.html")
+    
+    return serve_html("/frontend/index.html")
 
 @app.get("/register_service")
 def register_service():
-    return serve_file("src/register_service")
+    return serve_file("/frontend/register_service")
 
-@app.get("/assets/:path")
-async def serve_static_assets(path_params):
-    path = path_params["path"]
-    return serve_file(f"dist/assets/{path}")
+@app.get("/assets/*extra")
+async def serve_static_assets(request: Request):
+    extra = request.path_params["extra"]
+    print("extra:", extra)
+    return serve_file(f"/frontend/assets/{extra}")
 
 
 def main():

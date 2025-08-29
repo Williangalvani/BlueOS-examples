@@ -1,0 +1,24 @@
+[project]
+name = "example6-vue-robyn-multistage"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "robyn>=0.69.0",
+]
+
+[tool.uv.sources]
+uvloop = [
+  { index = "piwheel", marker = "platform_machine == 'armv7l'"},
+  { index = "pypi", marker = "platform_machine != 'armv7l'"},
+]
+
+[[tool.uv.index]]
+name = "piwheel"
+url = "https://www.piwheels.org/simple"
+explicit = true
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
