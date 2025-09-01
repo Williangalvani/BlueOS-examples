@@ -8,7 +8,7 @@ RUN bun run build
 
 
 # Stage 2: Build the backend
-FROM python:3.12-slim-bookworm AS backend
+FROM python:3.11-slim-bookworm AS backend
 RUN apt update && apt install -y curl --no-install-recommends && rm -rf /var/lib/apt/lists/*
 WORKDIR /backend
 
@@ -20,7 +20,7 @@ ENV PATH="/root/.local/bin/:$PATH"
 # This avoids this layer rebuilding when the backend code changes
 COPY ./backend/pyproject.toml ./backend/uv.lock ./
 
-RUN uv sync
+RUN pip install . --extra-index-url https://piwheels.org/simple
 COPY ./backend .
 
 COPY --from=frontend_amd64 /frontend/dist /frontend
